@@ -46,8 +46,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AudioManager.cs" />
      <Compile Include="Assets\Scripts\Enviroment\DayNight.cs" />
-     <Compile Include="Assets\Scripts\Items\HealthPotion.cs" />
+     <Compile Include="Assets\Scripts\Enviroment\Rain.cs" />
      <Compile Include="Assets\Scripts\Items\Potion.cs" />
      <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\SortingLayerExposed.cs" />
      <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TileAnimator.cs" />
