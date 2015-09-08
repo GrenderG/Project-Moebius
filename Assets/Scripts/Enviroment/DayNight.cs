@@ -118,6 +118,10 @@ public class DayNight : MonoBehaviour {
 		return actualTime;
 	}
 
+	public float GetDayDuration() {
+		return DayDuration;	
+	}
+
 	private bool IsFixedColor(Color colorToTest) {
 		return colorToTest == DawnColor || colorToTest == DayColor || colorToTest == DuskColor || colorToTest == NightColor;
 	}

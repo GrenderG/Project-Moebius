@@ -2,31 +2,24 @@
 using System.Collections;
 
 public class Rain : MonoBehaviour {
-	[Header("Rain variables (seconds)")]
-	public ParticleSystem RainParticles;
-	public AudioClip RainAudio;
-	public float RainDuration = 60;
-	public int HowMuchTimesInADayCanOccur = 1;
-	[Range(0, 100)]public int ProbabilityOfRain = 0;
-	public float TimeBetweenRainAndRain = 0;
-	[Header("Thunder variables (seconds)")]
-	public bool Thunders = false;
-	public AudioClip ThundersAudio;
-	public float ProbabilityOfThundersInARain = 0.25f;
-	public float TimeBetweenThunderAndThunder = 0;
-	[Header("Ambient variables")]
-	[Range(0, 1)]public float AmbientIntensity = 0.7f;
 
+	private EnviromentController Enviroment;
 	private float actualTime = 0;
 	private AudioManager AudioManager;
+	private float dayDuration;
+	private DayNight daynight;
 	private bool rainFinished = true;
 	private bool itRained = false;
+
+	void Start() {
+		dayDuration = daynight.GetDayDuration();
+	}
 	
 	void Update () {
 		StartCoroutine(RainFunction());
 	}
 
-	IEnumerator RainFunction() {	
+	IEnumerator RainFunction() {
 		actualTime += Time.deltaTime;
 
 		print(actualTime);
