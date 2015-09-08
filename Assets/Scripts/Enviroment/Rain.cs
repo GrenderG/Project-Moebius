@@ -7,7 +7,7 @@ public class Rain : MonoBehaviour {
 	public AudioClip RainAudio;
 	public float RainDuration = 60;
 	public int HowMuchTimesInADayCanOccur = 1;
-	public float ProbabilityOfRain = 0.25f;
+	[Range(0, 100)]public int ProbabilityOfRain = 0;
 	public float TimeBetweenRainAndRain = 0;
 	[Header("Thunder variables (seconds)")]
 	public bool Thunders = false;
@@ -19,16 +19,46 @@ public class Rain : MonoBehaviour {
 
 	private float actualTime = 0;
 	private AudioManager AudioManager;
+	private bool rainFinished = true;
+	private bool itRained = false;
 	
-	void Start () {
+	void Update () {
+		StartCoroutine(RainFunction());
 	}
 
-	void Update () {
+	IEnumerator RainFunction() {	
 		actualTime += Time.deltaTime;
 
-		if(Mathf.Floor(actualTime) >= RainDuration) {
-			//Stop Raining
+		print(actualTime);
+		print (itRained);
+
+		/*if(itRained) {
+			StopCoroutine("PlayRain");
+		}*/
+
+		if(Random.Range(0, 100) < ProbabilityOfRain) { //llueve
+			if(itRained && Mathf.Floor(actualTime) >= TimeBetweenRainAndRain) {
+				itRained = false;
+			} else if(rainFinished && !itRained) {
+				StartCoroutine("PlayRain");
+				rainFinished = false;
+				itRained = false;
+			}
 		}
-	
+		yield return new WaitForSeconds(1);
+	}
+
+	IEnumerator PlayRain() {
+		while(itRained) {
+			yield return new WaitForEndOfFrame();
+		}
+
+		RainParticles.Play();
+		yield return new WaitForSeconds(RainDuration);
+		RainParticles.Stop();
+		rainFinished = true;
+		actualTime = 0;
+		itRained = true;
+		yield return null;
 	}
 }
