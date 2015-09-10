@@ -1,0 +1,7 @@
+BEGIN TRANSACTION;
+CREATE TABLE `Prueba` (
+	`Value`	INTEGER,
+	`Name`	TEXT
+);
+INSERT INTO `Prueba` VALUES (1,'nombre');
+COMMIT;

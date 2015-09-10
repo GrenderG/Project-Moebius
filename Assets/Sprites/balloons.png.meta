@@ -1,0 +1,235 @@
+fileFormatVersion: 2
+guid: 4aae18317d9581142af30f984255f560
+timeCreated: 1441755223
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: quest_0
+    21300002: quest_1
+    21300004: quest_2
+    21300006: quest_3
+    21300008: quest_4
+    21300010: balloons_5
+    21300012: balloons_6
+    21300014: quest
+    21300016: balloons_8
+    21300018: balloons_9
+    21300020: balloons_10
+    21300022: balloons_11
+    21300024: balloons_12
+    21300026: balloons_13
+    21300028: balloons_14
+    21300030: help
+    21300032: balloons_16
+    21300034: balloons_17
+    21300036: balloons_18
+    21300038: balloons_19
+    21300040: balloons_20
+    21300042: balloons_21
+    21300044: balloons_22
+    21300046: music
+    21300048: balloons_24
+    21300050: balloons_25
+    21300052: balloons_26
+    21300054: balloons_27
+    21300056: balloons_28
+    21300058: balloons_29
+    21300060: balloons_30
+    21300062: heart
+    21300064: balloons_32
+    21300066: balloons_33
+    21300068: balloons_34
+    21300070: balloons_35
+    21300072: balloons_36
+    21300074: balloons_37
+    21300076: balloons_38
+    21300078: explosion
+    21300080: balloons_40
+    21300082: balloons_41
+    21300084: balloons_42
+    21300086: balloons_43
+    21300088: balloons_44
+    21300090: balloons_45
+    21300092: balloons_46
+    21300094: water
+    21300096: balloons_48
+    21300098: balloons_49
+    21300100: balloons_50
+    21300102: balloons_51
+    21300104: balloons_52
+    21300106: balloons_53
+    21300108: balloons_54
+    21300110: cloud
+    21300112: balloons_56
+    21300114: balloons_57
+    21300116: balloons_58
+    21300118: balloons_59
+    21300120: balloons_60
+    21300122: balloons_61
+    21300124: balloons_62
+    21300126: think
+    21300128: balloons_64
+    21300130: balloons_65
+    21300132: balloons_66
+    21300134: balloons_67
+    21300136: balloons_68
+    21300138: balloons_69
+    21300140: balloons_70
+    21300142: fire
+    21300144: balloons_72
+    21300146: balloons_73
+    21300148: balloons_74
+    21300150: balloons_75
+    21300152: balloons_76
+    21300154: balloons_77
+    21300156: balloons_78
+    21300158: sleeping
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: quest
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 288
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: help
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 257
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: music
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: heart
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: explosion
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: water
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 128
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cloud
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: think
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fire
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: sleeping
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

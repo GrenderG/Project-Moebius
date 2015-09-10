@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Rain : MonoBehaviour {
 
-	public float DayDuration;
+	public float DayDuration = 25;
 	[Header("Rain variables (seconds)")]
 	public ParticleSystem RainParticles;
 	public AudioClip RainAudio;
@@ -21,6 +21,8 @@ public class Rain : MonoBehaviour {
 
 	private EnviromentController Enviroment;
 	private float actualTime = 0;
+	private float timeWithoutRaining = 0;
+	private float rainingTimer = 0;
 	private AudioManager AudioManager;
 	private float dayDuration;
 	private float[] TimesRained;
@@ -32,21 +34,21 @@ public class Rain : MonoBehaviour {
 	}
 
 	void Update() {
-		actualTime += Time.deltaTime;
-
-		print (actualTime);
-
-		if (Mathf.Floor(actualTime) >= DayDuration / 60) {
+		if(actualTime >= RainDuration) {
+			RainParticles.Stop();
 			actualTime = 0;
+			timeWithoutRaining = 0;
+		}
 
-			for(int i = 0; i < TimesRained.Length; i ++) {
-				TimesRained[i] = 0;
+		if(timeWithoutRaining >= TimeBetweenRainAndRain) {
+			if(actualTime == 0) {
+				RainParticles.Play();
 			}
 		}
 
-
+		timeWithoutRaining += Time.deltaTime;
+		actualTime += Time.deltaTime;
 	}
-
 
 
 	/*void Start() {
