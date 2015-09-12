@@ -6,7 +6,8 @@ public class Rain : MonoBehaviour {
 	public float DayDuration = 25;
 	
 	[Header("Rain variables (seconds)")]
-	public ParticleSystem RainParticles;
+	public ParticleSystem RainDropParticles;
+	public ParticleSystem RainCollisionParticles;
 	[Range(120, 1440)]public float RainDuration = 240;
 	public int HowMuchTimesInADayCanOccur = 1;
 	[Range(0, 100)]public int ProbabilityOfRain = 0;
@@ -29,11 +30,16 @@ public class Rain : MonoBehaviour {
 	private bool isTransitionFinished = false;
 	private Color THUNDER_COLOR = new Color32(206, 222, 235, 0);
 	private AudioManager audioManager = new AudioManager();
+	private float AmbientIntensityBeforeRain;
+	private bool itRained = false;
 	
 	void Start() {
 		timeWithoutRain = TimeBetweenRainAndRain;
-		RainParticles.enableEmission = false;
-		RainParticles.Play();
+		RainDropParticles.enableEmission = false;
+		RainCollisionParticles.enableEmission = false;
+		RainDropParticles.Play();
+		RainCollisionParticles.Play();
+		AmbientIntensityBeforeRain = RenderSettings.ambientIntensity;
 	}
 	
 	void Update() {
@@ -45,17 +51,12 @@ public class Rain : MonoBehaviour {
 			   && !isRaining 
 			   && Mathf.Floor(timeWithoutRain) >= TimeBetweenRainAndRain) {
 
-				if (elapsedTransitionTime >= 5) {
-					elapsedTransitionTime = 0;
-					isTransitionFinished = true;
-				} else if(!isTransitionFinished) {
-					elapsedTransitionTime += Time.deltaTime;
-					RenderSettings.ambientIntensity = Mathf.Lerp(RenderSettings.ambientIntensity, AmbientIntensity, elapsedTransitionTime / 5);
-				}
-
 				StartCoroutine("RainSound");
-				RainParticles.enableEmission = true;
+				RainDropParticles.enableEmission = true;
+				RainCollisionParticles.enableEmission = true;
 				isRaining = true;
+				itRained = true;
+				isTransitionFinished = false;
 				timesRained ++;
 			}
 
@@ -69,14 +70,36 @@ public class Rain : MonoBehaviour {
 		
 		if(isRaining) {
 			rainTime += Time.deltaTime;
-			if(Mathf.Floor(rainTime) >= RainDuration) {
+
+			if (elapsedTransitionTime >= 5) {
+				elapsedTransitionTime = 0;
+				isTransitionFinished = true;
+			} else if(!isTransitionFinished) {
+				elapsedTransitionTime += Time.deltaTime;
+				RenderSettings.ambientIntensity = Mathf.Lerp(RenderSettings.ambientIntensity, AmbientIntensity, elapsedTransitionTime / 10);
+			}
+
+			if(Mathf.Floor(rainTime) >= RainDuration - 7) { // OJO!
 				rainTime = 0;
-				RainParticles.enableEmission = false;
+				RainDropParticles.enableEmission = false;
+				RainCollisionParticles.enableEmission = false;
 				timeWithoutRain = 0;
 				isRaining = false;
+				isTransitionFinished = false;
 			}
 		} else {
 			timeWithoutRain += Time.deltaTime;
+
+			if (RenderSettings.ambientIntensity < AmbientIntensityBeforeRain){
+				print (RenderSettings.ambientIntensity);
+				if (elapsedTransitionTime >= 10) {
+					elapsedTransitionTime = 0;
+					isTransitionFinished = true;
+				} else if(!isTransitionFinished) {
+					elapsedTransitionTime += Time.deltaTime;
+					RenderSettings.ambientIntensity = Mathf.Lerp(RenderSettings.ambientIntensity, AmbientIntensityBeforeRain, elapsedTransitionTime / 10);
+				}
+			}
 		}
 		
 		if(Mathf.Floor (dayTime) >= DayDuration * 60) {
@@ -117,10 +140,10 @@ public class Rain : MonoBehaviour {
 
 		if(RainDuration > 120) {
 			audioManager.PlaySoundOnCamera("RainLoop", null, "Sounds/Weather/", true);
-			yield return new WaitForSeconds(RainDuration - 59);
+			yield return new WaitForSeconds(RainDuration - 59);			
+			Destroy(GameObject.Find("AudioRainLoop"));
 		}
 
-		Destroy(GameObject.Find("AudioRainLoop"));
 		audioManager.PlaySoundOnCamera("RainEnd", null, "Sounds/Weather/", false);
 	}
 }
