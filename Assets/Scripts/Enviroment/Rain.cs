@@ -2,96 +2,125 @@
 using System.Collections;
 
 public class Rain : MonoBehaviour {
-
+	
 	public float DayDuration = 25;
+	
 	[Header("Rain variables (seconds)")]
 	public ParticleSystem RainParticles;
-	public AudioClip RainAudio;
-	public float RainDuration = 60;
+	[Range(120, 1440)]public float RainDuration = 240;
 	public int HowMuchTimesInADayCanOccur = 1;
 	[Range(0, 100)]public int ProbabilityOfRain = 0;
 	public float TimeBetweenRainAndRain = 0;
+	
 	[Header("Thunder variables (seconds)")]
 	public bool Thunders = false;
-	public AudioClip ThundersAudio;
-	public float ProbabilityOfThundersInARain = 0.25f;
-	public float TimeBetweenThunderAndThunder = 0;
+	[Range(0, 100)]public int ProbabilityOfThundersInARain = 0;
+	
 	[Header("Ambient variables")]
 	[Range(0, 1)]public float AmbientIntensity = 0.7f;
-
-	private EnviromentController Enviroment;
-	private float actualTime = 0;
-	private float timeWithoutRaining = 0;
-	private float rainingTimer = 0;
-	private AudioManager AudioManager;
-	private float dayDuration;
-	private float[] TimesRained;
-	private bool rainFinished = true;
-	private bool itRained = false;
-
+	
+	private float dayTime = 0;
+	private float rainTime = 0;
+	private float timeWithoutRain = 0;
+	private int lastMinute = 0;
+	private int timesRained = 0;
+	private bool isRaining = false;
+	private float elapsedTransitionTime;
+	private bool isTransitionFinished = false;
+	private Color THUNDER_COLOR = new Color32(206, 222, 235, 0);
+	private AudioManager audioManager = new AudioManager();
+	
 	void Start() {
-		TimesRained = new float[HowMuchTimesInADayCanOccur];
-	}
-
-	void Update() {
-		if(actualTime >= RainDuration) {
-			RainParticles.Stop();
-			actualTime = 0;
-			timeWithoutRaining = 0;
-		}
-
-		if(timeWithoutRaining >= TimeBetweenRainAndRain) {
-			if(actualTime == 0) {
-				RainParticles.Play();
-			}
-		}
-
-		timeWithoutRaining += Time.deltaTime;
-		actualTime += Time.deltaTime;
-	}
-
-
-	/*void Start() {
-		dayDuration = daynight.GetDayDuration();
+		timeWithoutRain = TimeBetweenRainAndRain;
+		RainParticles.enableEmission = false;
+		RainParticles.Play();
 	}
 	
-	void Update () {
-		StartCoroutine(RainFunction());
-	}
+	void Update() {
+		if(lastMinute != (int)dayTime) {
+			lastMinute = (int)dayTime;
+			
+			if(timesRained < HowMuchTimesInADayCanOccur 
+			   && Random.Range(0,100) < ProbabilityOfRain 
+			   && !isRaining 
+			   && Mathf.Floor(timeWithoutRain) >= TimeBetweenRainAndRain) {
 
-	IEnumerator RainFunction() {
-		actualTime += Time.deltaTime;
+				if (elapsedTransitionTime >= 5) {
+					elapsedTransitionTime = 0;
+					isTransitionFinished = true;
+				} else if(!isTransitionFinished) {
+					elapsedTransitionTime += Time.deltaTime;
+					RenderSettings.ambientIntensity = Mathf.Lerp(RenderSettings.ambientIntensity, AmbientIntensity, elapsedTransitionTime / 5);
+				}
 
-		print(actualTime);
-		print (itRained);
-
-		//if(itRained) {
-		//	StopCoroutine("PlayRain");
-		//}
-
-		if(Random.Range(0, 100) < ProbabilityOfRain) { //llueve
-			if(itRained && Mathf.Floor(actualTime) >= TimeBetweenRainAndRain) {
-				itRained = false;
-			} else if(rainFinished && !itRained) {
-				StartCoroutine("PlayRain");
-				rainFinished = false;
-				itRained = false;
+				StartCoroutine("RainSound");
+				RainParticles.enableEmission = true;
+				isRaining = true;
+				timesRained ++;
 			}
+
+			if (Thunders && isRaining) {
+				if (Random.Range(0, 100) < ProbabilityOfThundersInARain){
+					StartCoroutine("ThunderStrike");
+				}
+			}
+
 		}
-		yield return new WaitForSeconds(1);
+		
+		if(isRaining) {
+			rainTime += Time.deltaTime;
+			if(Mathf.Floor(rainTime) >= RainDuration) {
+				rainTime = 0;
+				RainParticles.enableEmission = false;
+				timeWithoutRain = 0;
+				isRaining = false;
+			}
+		} else {
+			timeWithoutRain += Time.deltaTime;
+		}
+		
+		if(Mathf.Floor (dayTime) >= DayDuration * 60) {
+			dayTime = 0;
+			timesRained = 0;
+		}
+		
+		dayTime += Time.deltaTime;
 	}
 
-	IEnumerator PlayRain() {
-		while(itRained) {
-			yield return new WaitForEndOfFrame();
+	IEnumerator ThunderStrike() {
+		Color ambientLightBeforeThunder = RenderSettings.ambientLight;
+		int random = Random.Range(1, 3);
+
+		RenderSettings.ambientIntensity = 0.8f;
+		RenderSettings.ambientLight = THUNDER_COLOR;
+
+		yield return new WaitForSeconds(0.1f);
+
+		audioManager.PlaySoundOnCamera("Thunder" + random, null, "Sounds/Weather/", false);
+		RenderSettings.ambientIntensity = AmbientIntensity;
+		RenderSettings.ambientLight = ambientLightBeforeThunder;
+
+		yield return new WaitForSeconds(0.05f);
+
+		RenderSettings.ambientIntensity = 1f;
+		RenderSettings.ambientLight = THUNDER_COLOR;
+
+		yield return new WaitForSeconds(0.08f);
+		
+		RenderSettings.ambientIntensity = AmbientIntensity;
+		RenderSettings.ambientLight = ambientLightBeforeThunder;
+	}
+
+	IEnumerator RainSound() {
+		audioManager.PlaySoundOnCamera("RainStart", null, "Sounds/Weather/", false);
+		yield return new WaitForSeconds(59);
+
+		if(RainDuration > 120) {
+			audioManager.PlaySoundOnCamera("RainLoop", null, "Sounds/Weather/", true);
+			yield return new WaitForSeconds(RainDuration - 59);
 		}
 
-		RainParticles.Play();
-		yield return new WaitForSeconds(RainDuration);
-		RainParticles.Stop();
-		rainFinished = true;
-		actualTime = 0;
-		itRained = true;
-		yield return null;
-	}*/
+		Destroy(GameObject.Find("AudioRainLoop"));
+		audioManager.PlaySoundOnCamera("RainEnd", null, "Sounds/Weather/", false);
+	}
 }

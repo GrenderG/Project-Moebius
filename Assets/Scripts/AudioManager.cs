@@ -3,14 +3,14 @@ using System.Collections;
 
 public class AudioManager {
 
-	public void PlaySoundOnCamera(string AudioName, AudioClip Clip) {
+	public void PlaySoundOnCamera(string AudioName, AudioClip Clip, string Path, bool Looping) {
 
 		AudioClip Sound;
 		if(Clip != null) {
 			Sound = Clip;
 		}
 		else {
-			Sound = Resources.Load<AudioClip>("Audio/" + AudioName);
+			Sound = Resources.Load<AudioClip>(Path + AudioName);
 		}
 
 		GameObject MainCamera = GameObject.FindWithTag("MainCamera");
@@ -23,6 +23,9 @@ public class AudioManager {
 
 		Source.GetComponent<AudioSource>().clip = Sound;
 		Source.GetComponent<AudioSource>().Play();
-		UnityEngine.Object.Destroy(SoundObject, Sound.length);
+		if(Looping) 
+			Source.GetComponent<AudioSource>().loop  = true;
+		else
+			UnityEngine.Object.Destroy(SoundObject, Sound.length);
 	}
 }
