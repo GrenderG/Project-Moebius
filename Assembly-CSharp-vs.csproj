@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\AudioManager.cs" />
+     <Compile Include="Assets\Scripts\Entities\Entity.cs" />
+     <Compile Include="Assets\Scripts\Entities\Handlers\PlayerHandler.cs" />
+     <Compile Include="Assets\Scripts\Entities\Player.cs" />
      <Compile Include="Assets\Scripts\Enviroment\DayNight.cs" />
      <Compile Include="Assets\Scripts\Enviroment\EnviromentController.cs" />
      <Compile Include="Assets\Scripts\Enviroment\Rain.cs" />
