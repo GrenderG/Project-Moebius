@@ -18,11 +18,6 @@ public class DayNight : MonoBehaviour {
 	public float NightToDawn = 5;
 	public float TransitionDuration = 1;
 
-	private const string DAWNTIME = "DAWNTIME";
-	private const string DAYTIME = "DAYTIME";
-	private const string DUSKTIME = "DUSKTIME";
-	private const string NIGHTTIME = "NIGHTTIME";
-
 	private float actualTime;
 	private float elapsedTransitionTime;
 	private Color actualColor;
@@ -37,16 +32,16 @@ public class DayNight : MonoBehaviour {
 
 		if(IsFixedColor(actualColor)) {
 			switch(GetTimeRange(StartingTime)) {
-				case DAYTIME:
+				case Constants.DAYTIME:
 					RenderSettings.ambientLight = DayColor;
 					break;
-				case DUSKTIME:
+				case Constants.DUSKTIME:
 					RenderSettings.ambientLight = DuskColor;
 					break;
-				case NIGHTTIME:
+				case Constants.NIGHTTIME:
 					RenderSettings.ambientLight = NightColor;
 					break;
-				case DAWNTIME:
+				case Constants.DAWNTIME:
 					RenderSettings.ambientLight = DawnColor;
 					break;
 			}
@@ -54,16 +49,16 @@ public class DayNight : MonoBehaviour {
 			color1 = actualColor;
 
 			switch(GetTimeRange(StartingTime)) {
-				case DAYTIME:
+				case Constants.DAYTIME:
 					color2 = DuskColor;
 					break;
-				case DUSKTIME:
+				case Constants.DUSKTIME:
 					color2 = NightColor;
 					break;
-				case NIGHTTIME:
+				case Constants.NIGHTTIME:
 					color2 = DawnColor;
 					break;
-				case DAWNTIME:
+				case Constants.DAWNTIME:
 					color2 = DayColor;
 					break;
 			}
@@ -128,17 +123,17 @@ public class DayNight : MonoBehaviour {
 
 	private string GetTimeRange(float time) {
 		if(time >= DawnToDay && time < DayToDusk) {
-			return DAYTIME;
+			return Constants.DAYTIME;
 		}
 
 		if(time >= DayToDusk && time < DuskToNight) {
-			return DUSKTIME;
+			return Constants.DUSKTIME;
 		}
 
 		if(time >= DuskToNight && time < NightToDawn) {
-			return NIGHTTIME;
+			return Constants.NIGHTTIME;
 		}
 
-		return DAWNTIME;
+		return Constants.DAWNTIME;
 	}
 }
