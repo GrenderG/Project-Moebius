@@ -28,10 +28,8 @@ public class Rain : MonoBehaviour {
 	private bool isRaining = false;
 	private float elapsedTransitionTime;
 	private bool isTransitionFinished = false;
-	private Color THUNDER_COLOR = new Color32(206, 222, 235, 0);
 	private AudioManager audioManager = new AudioManager();
 	private float AmbientIntensityBeforeRain;
-	private bool itRained = false;
 	
 	void Start() {
 		timeWithoutRain = TimeBetweenRainAndRain;
@@ -55,7 +53,6 @@ public class Rain : MonoBehaviour {
 				RainDropParticles.enableEmission = true;
 				RainCollisionParticles.enableEmission = true;
 				isRaining = true;
-				itRained = true;
 				isTransitionFinished = false;
 				timesRained ++;
 			}
@@ -115,7 +112,7 @@ public class Rain : MonoBehaviour {
 		int random = Random.Range(1, 3);
 
 		RenderSettings.ambientIntensity = 0.8f;
-		RenderSettings.ambientLight = THUNDER_COLOR;
+		RenderSettings.ambientLight = Constants.THUNDER_COLOR;
 
 		yield return new WaitForSeconds(0.1f);
 
@@ -126,7 +123,7 @@ public class Rain : MonoBehaviour {
 		yield return new WaitForSeconds(0.05f);
 
 		RenderSettings.ambientIntensity = 1f;
-		RenderSettings.ambientLight = THUNDER_COLOR;
+		RenderSettings.ambientLight = Constants.THUNDER_COLOR;
 
 		yield return new WaitForSeconds(0.08f);
 		
@@ -136,11 +133,11 @@ public class Rain : MonoBehaviour {
 
 	IEnumerator RainSound() {
 		audioManager.PlaySoundOnCamera("RainStart", null, "Sounds/Weather/", false);
-		yield return new WaitForSeconds(59);
+		yield return new WaitForSeconds(59.7f);
 
 		if(RainDuration > 120) {
 			audioManager.PlaySoundOnCamera("RainLoop", null, "Sounds/Weather/", true);
-			yield return new WaitForSeconds(RainDuration - 59);			
+			yield return new WaitForSeconds(RainDuration - 59.7f);			
 			Destroy(GameObject.Find("AudioRainLoop"));
 		}
 
